@@ -27,7 +27,7 @@ const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 //Allow Access Control
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Credentials', 'true');
   res.setHeader('Access-Control-Allow-Methods', 'GET,HEAD,OPTIONS,POST,PUT,DELETE');
@@ -43,15 +43,44 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', categoryRouter);
 app.use('/', productRouter);
+app.get('/testzoom', (req, res) => {
+  // console.log('input is: '+req.params.id);
+  var Zoom = require("zoomus")({
+    key: "EsJ9IIy_SXCEWu2glgoi8g",
+    secret: "qFiAQ1OzPjG46fKGzKsYYLES2pWlmJxF0Le6"
+  });
+
+  var meeting = {
+    host_id: "Y5ysc2Q1SUe_sgyJwfNR-Q",
+    type: 1,
+    topic: "test 2 Meeting Topic"
+  }
+
+  Zoom.meeting.create(meeting, function (res) {
+    if (res.error) {
+      res.status(200);
+      res.send('res error: ', res.error);
+      //handle error
+
+    } else {
+      res.status(200);
+      console.log(res);
+      res.send(res)
+    }
+  });
+  // res.status(200);
+  // res.send("hello zoom")      ;
+  // res.end();
+});
 const port = 5000;
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};

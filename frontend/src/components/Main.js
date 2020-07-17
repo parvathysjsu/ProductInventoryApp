@@ -6,6 +6,11 @@ import ProductList from './ProductList'
 import ParallelList from './ParallelList'
 import ProductForm from './ProductForm'
 import CategoryForm from './CategoryForm'
+import Routes from './../routes/route'
+import Home from './Home'
+import Product from './Product'
+import Category from './Category'
+import { Route, Link, BrowserRouter } from 'react-router-dom'
 class Main extends React.Component {
 
     constructor(props) {
@@ -17,13 +22,19 @@ class Main extends React.Component {
 
     render() {
         return (
-            <div>
-                <Header />
-                <Search />
-                <ProductForm />
-                < CategoryForm />
-                <ParallelList />
-            </div>
+            < BrowserRouter >
+                <div>
+                    <button>
+                        <Link to="/">Home</Link></button>
+                    <button>
+                        <Link to="/product">Product</Link></button>
+                    <button>
+                        <Link to="/category">Category</Link> </button>
+                    <Route exact path="/" component={Home} />
+                    <Route path="/product" component={Product} />
+                    <Route path="/category" component={Category} />
+                </div>
+            </ BrowserRouter >
         )
     }
 }
