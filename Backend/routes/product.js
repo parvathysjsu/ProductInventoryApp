@@ -45,6 +45,7 @@ router.get('/api/search/:text', function (req, res) {
             if (err) {
                 res.send(err);
             }
+            else {
             let resp= {};
             resp.count=results.hits.total;
             resp.hits=[];
@@ -56,6 +57,7 @@ router.get('/api/search/:text', function (req, res) {
                 })
                 )
             res.send( resp);
+        }
         })
 })
 
