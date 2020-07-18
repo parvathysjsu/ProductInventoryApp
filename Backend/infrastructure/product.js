@@ -19,7 +19,20 @@ exports.getProducts = function (req, res) {
         res.send(results);
     });
 };
-
+exports.search = function (req, res) {
+    let searchText=req.params.text;
+    console.log('searchText: ', searchText);
+    Product.search({
+        query_string:{query:searchText}
+    },
+    function(err, results){
+        if(err) return res.send(err);
+        console.log(results);
+        console.log('results: ', results.hits.hits);
+        //return results;
+        res.send(results);
+    })
+}
 exports.loadSampleProducts = function (req, res){
     let i = 0;
     let promises = [];
