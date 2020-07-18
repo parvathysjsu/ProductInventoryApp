@@ -29,4 +29,34 @@ router.get('/api/products/load/search', function (req, res) {
     })
     res.send("Sync'ing data")
 });
+
+router.get('/api/search/:text', function (req, res) {
+
+    let searchText = req.params.text;
+    console.log('searchText: ', searchText);
+    var collection = ['products', 'categorys'];
+    var types = ['_doc'];
+    Product.search({
+        query_string:
+            { query: searchText }
+    },
+        { index: collection, type: types },
+        function (err, results) {
+            if (err) {
+                res.send(err);
+            }
+            let resp= {};
+            resp.count=results.hits.total;
+            resp.hits=[];
+            results.hits.hits.map(rec=> 
+                resp.hits.push({
+                    "type":rec._index,
+                    "id":rec._id,
+                    "data":rec._source
+                })
+                )
+            res.send( resp);
+        })
+})
+
 module.exports = router;

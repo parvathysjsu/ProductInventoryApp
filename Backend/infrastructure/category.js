@@ -42,3 +42,18 @@ exports.loadSampleCategories = function (req, res) {
             return  res.send(error);
         });
 };
+
+exports.search = function (req, res) {
+    let searchText=req.params.text;
+    console.log('searchText: ', searchText);
+    Category.search({
+        query_string:{query:searchText}
+    },
+    function(err, results){
+        if(err) return res.send(err);
+        console.log(results);
+        console.log('results: ', results.hits.hits);
+        //return results;
+        res.send(results);
+    })
+}
